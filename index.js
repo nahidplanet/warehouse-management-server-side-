@@ -22,14 +22,27 @@ const run = async () => {
       const cursor = productCollections.find(query);
       const products = await cursor.toArray();
       res.send(products);
-    })
+    });
     // PRODUCT DETAILS BY ID 
     app.get('/product/:id',async (req,res)=>{
       const id = req.params.id;
       const query = {_id: ObjectId(id)};
       const product = await productCollections.findOne(query);
       res.send(product);
-    })
+    });
+    // ADD PRODUCT ;
+    app.post('/product',async (req,res) => {
+      const newProduct = req.body;
+      const result = await productCollections.insertOne(newProduct);
+      res.send(result);
+    });
+    // delete product 
+    app.delete('/product/:id' , async (req,res)=>{
+      const deletedId = req.params.id;
+      const query = {_id: ObjectId(deletedId)};
+      const result = await productCollections.deleteOne(query);
+      res.send(result);
+    });
 
 
 
